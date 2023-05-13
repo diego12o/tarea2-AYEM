@@ -2,6 +2,7 @@ import argparse
 import time
 import functions
 
+# ALTERNATIVES OF ALGORITHMS
 # det_greedy: greedy determinista
 # sto_greedy: greedy estocástico
 # hcam: hill climbing alguna-mejora
