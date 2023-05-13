@@ -11,10 +11,20 @@ import functions
 
 algorithms = ['det_greedy', 'sto_greedy', 'hcam', 'hcmm', 'tabu_search']
 
-def main(file, algorithm, times_number):
+################################# TESTING #################################
+def testing(file, algorithm, times_number):
     if algorithm not in algorithms:
         raise Exception("Error: invalid algorithm")
 
+    # GET PARAMS
+    uav, uav_times, diff_times = get_params(file=file)    
+
+    func = getattr(functions, algorithm)
+    # CALL ALGORITHM
+    func(uav=uav, uav_times=uav_times, diff_times=diff_times)
+###########################################################################
+
+def get_params(file):
     uav_times = []
     diff_times = []
     
@@ -40,6 +50,15 @@ def main(file, algorithm, times_number):
         diff_times.append(array_diff_times)
 
         count = count + 1
+    
+    return uav, uav_times, diff_times
+
+def main(file, algorithm, times_number):
+    if algorithm not in algorithms:
+        raise Exception("Error: invalid algorithm")
+
+    # GET PARAMS
+    uav, uav_times, diff_times = get_params(file=file)    
 
     ##############################################################################
     ####################### HERE ALGORITHMS FUNCTIONS ############################
@@ -49,7 +68,6 @@ def main(file, algorithm, times_number):
     avg_time = 0
     avg_cost = 0
 
-    print(times_number)
     for i in range(times_number):
         print("\033[92m" + "######################################################################" + "\033[;37m")
 
@@ -65,6 +83,7 @@ def main(file, algorithm, times_number):
         avg_cost = avg_cost + cost
         
         print("\033[92m" + "######################################################################" + "\033[;37m")
+    
 
     # CALCULATING AVERAGE
     avg_cost = avg_cost/times_number
@@ -73,8 +92,6 @@ def main(file, algorithm, times_number):
     print("\033[;31m" + "AVG TIME: " + "\033[;37m" + str(avg_time))
     print("\033[;31m" + "AVG COST: " + "\033[;37m" + str(avg_cost))
     
-
-
     ##############################################################################
     ##############################################################################
     ##############################################################################
@@ -88,6 +105,10 @@ if __name__ == "__main__":
     parser.add_argument("-a", "--algorithm", help="Algorithm to solve the problem", required=True, nargs=1, type=str)
     parser.add_argument("-f", "--file", help="File with information about the problem", required=True, nargs=1, type=argparse.FileType('r'))
     parser.add_argument("-t", "--times", help="Times number of execution", default=1, nargs=1, type=int)
+    parser.add_argument("-p", "--proof", help="Testing program. Ignore quantity of executions and functions returns", default=1, nargs=1, type=bool)
     args = parser.parse_args()
 
-    main(file=args.file[0], algorithm=args.algorithm[0], times_number=args.times[0])
+    test = args.proof[0]
+
+    if not test: main(file=args.file[0], algorithm=args.algorithm[0], times_number=args.times[0])
+    else: testing(file=args.file[0], algorithm=args.algorithm[0], times_number=args.times[0])
