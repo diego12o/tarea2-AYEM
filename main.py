@@ -105,10 +105,10 @@ if __name__ == "__main__":
     parser.add_argument("-a", "--algorithm", help="Algorithm to solve the problem", required=True, nargs=1, type=str)
     parser.add_argument("-f", "--file", help="File with information about the problem", required=True, nargs=1, type=argparse.FileType('r'))
     parser.add_argument("-t", "--times", help="Times number of execution", default=1, nargs=1, type=int)
-    parser.add_argument("-p", "--proof", help="Testing program. Ignore quantity of executions and functions returns", default=1, nargs=1, type=bool)
+    parser.add_argument("-p", "--proof", help="Testing program. Ignore quantity of executions and functions returns", default=False, type=bool)
     args = parser.parse_args()
 
-    test = args.proof[0]
+    test = args.proof
 
     if not test: main(file=args.file[0], algorithm=args.algorithm[0], times_number=args.times[0])
     else: testing(file=args.file[0], algorithm=args.algorithm[0], times_number=args.times[0])
