@@ -1,5 +1,5 @@
 import time
-from utils import search_greater_cost, time_corrector, miope
+from utils import search_greater_cost, time_corrector, miope, calculate_cost, conflict
         
 ############################## DETERMINISTIC GREEDY ##############################
 ##################################################################################
@@ -30,6 +30,7 @@ def sto_greedy(uav, uav_times, diff_times):
 
 ################################ HILL CLIMBING MM ################################
 ##################################################################################
+
 def hcmm(uav, uav_times, diff_times):
     # GET SOLUTION WITH GREEDY
     initial_arrival_plan, initial_cost = det_greedy(uav, uav_times, diff_times)
@@ -38,36 +39,39 @@ def hcmm(uav, uav_times, diff_times):
     
     #########
     lower_cost = initial_cost
-    lower_result = initial_arrival_plan
+    lower_result = initial_arrival_plan.copy()
+    iterations = 10
+    
+    diff_sum = 1
         
-    for i in range(len(initial_arrival_plan)):
-        aux_initial_arrival_plan = initial_arrival_plan[:]
-        while(aux_initial_arrival_plan[i] != uav_times[i][1]):
-            # print("-----------------------------------------------------")
-            # print("INICIO: " + str(initial_arrival_plan))
-            # SUBSTRACT 1 WHEN TIME IS GREATER THAN P_TIME
-            # ADD 1 WHEN TIME IS LOWER THAN P_TIME
-            if aux_initial_arrival_plan[i] > uav_times[i][1]:
-                aux_initial_arrival_plan[i] = aux_initial_arrival_plan[i] - 1
-                sum = -1
-            elif aux_initial_arrival_plan[i] < uav_times[i][1]:
-                aux_initial_arrival_plan[i] = aux_initial_arrival_plan[i] + 1
-                sum = 1
-            
-            arrival_plan, total_cost_variation, feasible = time_corrector(arrival_plan=aux_initial_arrival_plan[:], uav_times=uav_times, pos_changed=i, diff_times=diff_times, sum=sum)
-            
-            if feasible:
-                new_cost = initial_cost + total_cost_variation
-                if new_cost < lower_cost:
-                    lower_cost = new_cost
-                    lower_result = arrival_plan
+    for iteration in range(iterations):
+        print(iteration)
+        solution = True
+        initial_arrival_plan = lower_result.copy()
         
-    #     print("NEW COST: {} INITIAL COST: {}".format(new_cost, initial_cost))
-    #     print("FINAL: {}".format(arrival_plan))
-    # print("----------------------------------------------------------")
-    # print("COST: {} \n RESULT: \n{}".format(lower_cost, lower_result))
+        for i in range(len(initial_arrival_plan)):
+            # print(i)
+            if uav_times[i][0] == uav_times[i][2]: continue
+            
+            aux_initial_arrival_plan = initial_arrival_plan.copy()
+            for j in range(2):
+                if j == 0 and initial_arrival_plan[i]-diff_sum>=uav_times[i][0]: aux_initial_arrival_plan[i] = initial_arrival_plan[i] - diff_sum
+                elif j == 1 and initial_arrival_plan[i]+diff_sum<=uav_times[i][2]: aux_initial_arrival_plan[i] = initial_arrival_plan[i] + diff_sum
+                
+                arrival_plan, feasible = time_corrector(arrival_plan=aux_initial_arrival_plan[:], uav_times=uav_times, pos_changed=[i], diff_times=diff_times)
+                if feasible:
+                    new_cost = calculate_cost(arrival_plan=arrival_plan, uav_times=uav_times)
+                    if new_cost < lower_cost:
+                        # print(str(arrival_plan))
+                        # print(conflict(arrival_plan, diff_times))
+                        solution = False
+                        lower_cost = new_cost
+                        lower_result = arrival_plan
+        
+        if solution: diff_sum = diff_sum + 1
+        else: diff_sum = 1
+        
     return lower_result, lower_cost
-        
 
 
 ################################ HILL CLIMBING AM ################################
@@ -76,41 +80,45 @@ def hcam(uav, uav_times, diff_times):
     # GET SOLUTION WITH GREEDY
     initial_arrival_plan, initial_cost = det_greedy(uav, uav_times, diff_times)
     # SEARCH POSITION WITH GREATER COST
-    pos_greater = search_greater_cost(initial_arrival_plan, uav_times)
+    # pos_greater = search_greater_cost(initial_arrival_plan, uav_times)
     
     #########
     lower_cost = initial_cost
-    lower_result = initial_arrival_plan
+    lower_result = initial_arrival_plan.copy()
+    iterations = 1000
     
-    start = time.time()
-    end = time.time()
-
-    while(lower_cost == initial_cost and end-start < 10):
-        # print("-----------------------------------------------------")
-        # print("INICIO: " + str(initial_arrival_plan))
-        # SUBSTRACT 1 WHEN TIME IS GREATER THAN P_TIME
-        # ADD 1 WHEN TIME IS LOWER THAN P_TIME
-        if initial_arrival_plan[pos_greater] > uav_times[pos_greater][1]:
-            initial_arrival_plan[pos_greater] = initial_arrival_plan[pos_greater] - 1
-            sum = -1
-        elif initial_arrival_plan[pos_greater] < uav_times[pos_greater][1]:
-            initial_arrival_plan[pos_greater] = initial_arrival_plan[pos_greater] + 1
-            sum = 1
+    diff_sum = 1
         
-        arrival_plan, total_cost_variation, feasible = time_corrector(arrival_plan=initial_arrival_plan[:], uav_times=uav_times, pos_changed=pos_greater, diff_times=diff_times, sum=sum)
+    for iteration in range(iterations):
+        print(iteration)
+        solution = False
+        initial_arrival_plan = lower_result.copy()
         
-        if feasible:
-            new_cost = initial_cost + total_cost_variation
-            if new_cost < lower_cost:
-                lower_cost = new_cost
-                lower_result = arrival_plan
+        for i in range(len(initial_arrival_plan)):
+            # print(i)
+            if uav_times[i][0] == uav_times[i][2]: continue
+            
+            aux_initial_arrival_plan = initial_arrival_plan.copy()
+            for j in range(2):
+                if j == 0 and initial_arrival_plan[i]-diff_sum>=uav_times[i][0]: aux_initial_arrival_plan[i] = initial_arrival_plan[i] - diff_sum
+                elif j == 1 and initial_arrival_plan[i]+diff_sum<=uav_times[i][2]: aux_initial_arrival_plan[i] = initial_arrival_plan[i] + diff_sum
+                
+                arrival_plan, feasible = time_corrector(arrival_plan=aux_initial_arrival_plan[:], uav_times=uav_times, pos_changed=[i], diff_times=diff_times)
+                if feasible:
+                    new_cost = calculate_cost(arrival_plan=arrival_plan, uav_times=uav_times)
+                    if new_cost < lower_cost:
+                        # print(str(arrival_plan))
+                        # print(conflict(arrival_plan, diff_times))
+                        solution = True
+                        lower_cost = new_cost
+                        lower_result = arrival_plan
+                        break
+            # IF THERE IS A NEW BEST SOLUTION, CONTINUE TO THAT PLACE
+            if solution: break
+            
+        if not solution: diff_sum = diff_sum + 1
+        else: diff_sum = 1
         
-        end = time.time()
-        
-    #     print("NEW COST: {} INITIAL COST: {}".format(new_cost, initial_cost))
-    #     print("FINAL: {}".format(arrival_plan))
-    # print("----------------------------------------------------------")
-    # print("COST: {} \n RESULT: \n{}".format(lower_cost, lower_result))
     return lower_result, lower_cost
 
 
