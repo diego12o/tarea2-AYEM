@@ -1,0 +1,139 @@
+HCMM
+
+________________________________________________________________________________
+|                            Greedy determinista                               |
+--------------------------------------------------------------------------------
+|Archivo: Titan          |  Archivo: Europa         |   Archivo: Deimos         |
+|Iteraciones:            |  Iteraciones:            |   Iteraciones:            |
+|    10                  |      10                  |       10                  |
+|        Tiempo: 0,21    |          Tiempo: 0,03    |           Tiempo: 13,53   |
+|        Costo: 85       |          Costo: 4.443    |           Costo: 9.270    |
+|    50                  |      50                  |       50                  |
+|        Tiempo: 1,10    |          Tiempo: 0,09    |           Tiempo: 77,67   |
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.270    |
+|    100                 |      100                 |       100                 |
+|        Tiempo: 1,72    |          Tiempo: 0,17    |           Tiempo: 145,86  |
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.268    |
+|    500                 |      500                 |       500                 |
+|        Tiempo: 6,20    |          Tiempo: 0,83    |           Tiempo: 706,14  |
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.268    |
+|    1.000               |      1.000               |       1.000               |
+|        Tiempo: 11,98   |          Tiempo: 1,62    |           Tiempo: 1.289,76|
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.268    |
+|    1.500               |      1.500               |       1.500               |
+|        Tiempo: 17,09   |          Tiempo: 2,46    |           Tiempo: 1.835,95|
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.086    |
+|    3.000               |      3.000               |       3.000               |
+|        Tiempo: 34,06   |          Tiempo: 5,16    |           Tiempo: 3714,66 |
+|        Costo: 63       |          Costo: 4.443    |           Costo: 8.333    |
+--------------------------------------------------------------------------------
+
+HCAM
+
+________________________________________________________________________________
+|                            Greedy determinista                               |
+--------------------------------------------------------------------------------
+|Archivo: Titan          |  Archivo: Europa         |   Archivo: Deimos         |
+|Iteraciones:            |  Iteraciones:            |   Iteraciones:            |
+|    10                  |      10                  |       10                  |
+|        Tiempo: 0,02    |          Tiempo: 0,05    |           Tiempo: 13,07   |
+|        Costo: 95       |          Costo: 4.443    |           Costo: 9.270    |
+|    50                  |      50                  |       50                  |
+|        Tiempo: 0,55    |          Tiempo: 0,11    |           Tiempo: 68,30   |
+|        Costo:  72      |          Costo: 4.443    |           Costo: 9.270    |
+|    100                 |      100                 |       100                 |
+|        Tiempo: 1,27    |          Tiempo: 0,17    |           Tiempo: 114,91  |
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.268    |
+|    500                 |      500                 |       500                 |
+|        Tiempo: 6,02    |          Tiempo: 0,84    |           Tiempo: 592,46  |
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.268    |
+|    1.000               |      1.000               |       1.000               |
+|        Tiempo: 11,20   |          Tiempo: 1,65    |           Tiempo: 1.157,25|
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.268    |
+|    1.500               |      1.500               |       1.500               |
+|        Tiempo: 16,91   |          Tiempo: 2,37    |           Tiempo: 1.559,81|
+|        Costo: 63       |          Costo: 4.443    |           Costo: 9.086    |
+|    3.000               |      3.000               |       3.000               |
+|        Tiempo: 32,89   |          Tiempo: 4,98    |           Tiempo:         |
+|        Costo: 63       |          Costo: 4.443    |           Costo:          |
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________________________________________________________________________
+|                            Greedy determinista                               |
+--------------------------------------------------------------------------------
+Archivo: Titan          |  Archivo: Europa         |   Archivo: Deimos         |
+Iteraciones:            |  Iteraciones:            |   Iteraciones:            |
+    10                  |      10                  |       10                  |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+    50                  |      50                  |       50                  |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+    100                 |      100                 |       100                 |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+    500                 |      500                 |       500                 |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+    1.000               |      1.000               |       1.000               |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+    1.500               |      1.500               |       1.500               |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+    3.000               |      3.000               |       3.000               |
+        Tiempo:         |          Tiempo:         |           Tiempo:         |
+        Costo:          |          Costo:          |           Costo:          |
+--------------------------------------------------------------------------------
