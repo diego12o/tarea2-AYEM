@@ -1,6 +1,6 @@
 import time
 import random
-from utils import search_greater_cost, time_corrector, miope, calculate_cost, conflict
+from utils import search_greater_cost, time_corrector, miope, calculate_cost, conflict, miope_sto
         
 ############################## DETERMINISTIC GREEDY ##############################
 ##################################################################################
@@ -25,7 +25,21 @@ def det_greedy(uav, uav_times, diff_times):
 ############################### STOCHASTIC GREEDY ################################
 ##################################################################################
 def sto_greedy(uav, uav_times, diff_times):
-    print("Hola")
+    arrival_plan = []
+
+    for i in range(0, uav):
+        value = miope_sto(
+            arrival_plan=arrival_plan,
+            e_time=uav_times[i][0],
+            p_time=uav_times[i][1],
+            l_time=uav_times[i][2],
+            diff_times=diff_times,
+            pos= i
+        )
+        arrival_plan.append(value)
+        
+    total_cost = calculate_cost(arrival_plan, uav_times)
+    return arrival_plan, total_cost
 
 
 

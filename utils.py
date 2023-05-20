@@ -1,3 +1,5 @@
+import random
+
 def calculate_cost(arrival_plan, uav_times):
     total_cost = 0
     for i in range(len(arrival_plan)):
@@ -115,6 +117,63 @@ def miope(arrival_plan, e_time, l_time, p_time, diff_times, pos):
 
     # RETURN SOLUTION AND COST
     return solution_test
+
+def miope_sto(arrival_plan, e_time, l_time, p_time, diff_times, pos):
+    factible_solution = False
+    taked_e_time = False
+    taked_l_time = False
+    var_solution = 1
+
+    # SET SOLUTION WITH LOWER COST
+    solution_test = p_time
+
+    
+    while not factible_solution and (not taked_l_time or not taked_e_time):
+        if e_time == solution_test: taked_e_time = True
+        if l_time == solution_test: taked_l_time = True
+
+        take_solution = random.randint(1, 10) >= 7
+        if take_solution:
+            factible_solution = True
+            for i in range(len(arrival_plan)):
+                arrival_time = arrival_plan[i]
+                # GET RANGE OF VALUES THAT CANT TAKE THE SOLUTION
+                
+                # print("[" + str(min_range_value) + ", " + str(max_range_value) + "] ----> " + str(solution_test))
+                # VERIFY IF THE SOLUTION TAKED IS IN THE RANGE
+                if arrival_time > solution_test:
+                    min_range_value = solution_test
+                    max_range_value = solution_test + diff_times[pos][i]
+                    if arrival_time < max_range_value and arrival_time > min_range_value:
+                        factible_solution = False
+                        break
+                elif arrival_time < solution_test:
+                    min_range_value = arrival_time
+                    max_range_value = arrival_time + diff_times[i][pos]
+                    if solution_test > min_range_value and solution_test < max_range_value:
+                        factible_solution = False
+                        break
+                else:
+                    factible_solution = False
+                    break
+            # SET NEW LOWER SOLUTION IF THE ACTUAL IS NOT FACTIBLE
+        if not factible_solution:
+            if not taked_e_time and solution_test >= p_time: solution_test = p_time - var_solution
+            elif not taked_l_time and solution_test < p_time:
+                solution_test = p_time + var_solution
+                var_solution = var_solution + 1
+            elif taked_e_time and solution_test >= p_time:
+                solution_test = p_time + var_solution
+                var_solution = var_solution + 1
+            elif taked_l_time and solution_test < p_time:
+                solution_test = p_time - var_solution
+                var_solution = var_solution + 1
+
+    #print("----------------------------------------------------------------")
+
+    # RETURN SOLUTION AND COST
+    return solution_test
+
 
 def get_conflict(arrival_plan, diff_times, i):
     for j in range(len(arrival_plan)):
