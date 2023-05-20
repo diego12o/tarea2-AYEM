@@ -1,6 +1,7 @@
 import argparse
 import time
 import functions
+from utils import conflict
 
 # ALTERNATIVES OF ALGORITHMS
 # det_greedy: greedy determinista
@@ -75,6 +76,7 @@ def main(file, algorithm, times_number):
         arrival_plan, cost = func(uav=uav, uav_times=uav_times, diff_times=diff_times)
         end = time.time()
         # SHOW RESULTS
+        print("There is conflict: " + str(conflict(arrival_plan, diff_times)))
         print("\033[94m" + "ARRIVAL PLAN:\n" + "\033[;37m" + str(arrival_plan))
         print("\033[94m" + "TOTAL COST: " + "\033[;37m" + str(cost))
         print("\033[94m" + "TIME: " + "\033[;37m" + str(end-start))

@@ -6,19 +6,19 @@ from utils import search_greater_cost, time_corrector, miope, calculate_cost, co
 ##################################################################################
 def det_greedy(uav, uav_times, diff_times):
     arrival_plan = []
-    total_cost = 0
 
     for i in range(0, uav):
-        value, cost = miope(
+        value = miope(
             arrival_plan=arrival_plan,
             e_time=uav_times[i][0],
             p_time=uav_times[i][1],
             l_time=uav_times[i][2],
-            diff_times=diff_times[i]
+            diff_times=diff_times,
+            pos= i
         )
         arrival_plan.append(value)
-        # print(cost)
-        total_cost = total_cost + cost
+        
+    total_cost = calculate_cost(arrival_plan, uav_times)
     return arrival_plan, total_cost
 
 
@@ -138,12 +138,12 @@ def tabu_search(uav, uav_times, diff_times):
     lower_cost = initial_cost
     lower_result = initial_arrival_plan.copy()
     tabu_solution = lower_result.copy()
-    iterations = 1000
+    iterations = 100
     
     diff_sum = 1
         
     for iteration in range(iterations):
-        # print(iteration)
+        print(iteration)
         solution = True
         initial_arrival_plan = tabu_solution.copy()
         

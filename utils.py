@@ -62,7 +62,7 @@ def time_corrector(arrival_plan, uav_times, pos_changed, diff_times):
     return arrival_plan, feasible
 
 
-def miope(arrival_plan, e_time, l_time, p_time, diff_times):
+def miope(arrival_plan, e_time, l_time, p_time, diff_times, pos):
     factible_solution = False
     taked_e_time = False
     taked_l_time = False
@@ -70,21 +70,32 @@ def miope(arrival_plan, e_time, l_time, p_time, diff_times):
 
     # SET SOLUTION WITH LOWER COST
     solution_test = p_time
+
     
     while not factible_solution and (not taked_l_time or not taked_e_time):
         if e_time == solution_test: taked_e_time = True
         if l_time == solution_test: taked_l_time = True
 
         factible_solution = True
-
         for i in range(len(arrival_plan)):
             arrival_time = arrival_plan[i]
             # GET RANGE OF VALUES THAT CANT TAKE THE SOLUTION
-            min_range_value = arrival_time - diff_times[i]
-            max_range_value = arrival_time + diff_times[i]
+            
             # print("[" + str(min_range_value) + ", " + str(max_range_value) + "] ----> " + str(solution_test))
             # VERIFY IF THE SOLUTION TAKED IS IN THE RANGE
-            if not (solution_test <= min_range_value or solution_test >= max_range_value):
+            if arrival_time > solution_test:
+                min_range_value = solution_test
+                max_range_value = solution_test + diff_times[pos][i]
+                if arrival_time < max_range_value and arrival_time > min_range_value:
+                    factible_solution = False
+                    break
+            elif arrival_time < solution_test:
+                min_range_value = arrival_time
+                max_range_value = arrival_time + diff_times[i][pos]
+                if solution_test > min_range_value and solution_test < max_range_value:
+                    factible_solution = False
+                    break
+            else:
                 factible_solution = False
                 break
         # SET NEW LOWER SOLUTION IF THE ACTUAL IS NOT FACTIBLE
@@ -98,29 +109,48 @@ def miope(arrival_plan, e_time, l_time, p_time, diff_times):
                 var_solution = var_solution + 1
             elif taked_l_time and solution_test < p_time:
                 solution_test = p_time - var_solution
-                var_solution = var_solution - 1
+                var_solution = var_solution + 1
 
     #print("----------------------------------------------------------------")
 
-    cost = solution_test - p_time
-    if cost < 0: cost = cost*-1
-
     # RETURN SOLUTION AND COST
-    return solution_test, cost
+    return solution_test
 
 def get_conflict(arrival_plan, diff_times, i):
     for j in range(len(arrival_plan)):
         if i == j: continue
-        if arrival_plan[i] + diff_times[i][j] > arrival_plan[j] and arrival_plan[i] - diff_times[i][j] < arrival_plan[j]: return True
+        
+        arrival_time_i = arrival_plan[i]
+        arrival_time_j = arrival_plan[j]
+        
+        if arrival_time_j > arrival_time_i:
+            min_range_value = arrival_time_i
+            max_range_value = arrival_time_i + diff_times[i][j]
+            if arrival_time_j < max_range_value and arrival_time_j > min_range_value: return True
+        elif arrival_time_j < arrival_time_i:
+            min_range_value = arrival_time_j
+            max_range_value = arrival_time_j + diff_times[j][i]
+            if arrival_time_i > min_range_value and arrival_time_i < max_range_value: return True
+        else: return True
     return False
 
 def conflict(arrival_plan, diff_times):
     for i in range(len(arrival_plan)):
         for j in range(len(arrival_plan)):
             if i == j: continue
-            if arrival_plan[i] + diff_times[i][j] > arrival_plan[j] and arrival_plan[i] - diff_times[i][j] < arrival_plan[j]:
-                print(str(i) + " " + str(j))
-                return True
+            
+            arrival_time_i = arrival_plan[i]
+            arrival_time_j = arrival_plan[j]
+            
+            if arrival_time_j > arrival_time_i:
+                min_range_value = arrival_time_i
+                max_range_value = arrival_time_i + diff_times[i][j]
+                if arrival_time_j < max_range_value and arrival_time_j > min_range_value: return True
+            elif arrival_time_j < arrival_time_i:
+                min_range_value = arrival_time_j
+                max_range_value = arrival_time_j + diff_times[j][i]
+                if arrival_time_i > min_range_value and arrival_time_i < max_range_value: return True
+            else: return True
     return False
 
 def order_by_conflicts(arrival_plan, diff_times):
