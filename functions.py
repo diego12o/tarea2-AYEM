@@ -49,6 +49,8 @@ def sto_greedy(uav, uav_times, diff_times):
 def hcmm(uav, uav_times, diff_times):
     # GET SOLUTION WITH GREEDY
     initial_arrival_plan, initial_cost = det_greedy(uav, uav_times, diff_times)
+    initial_arrival_plan, initial_cost = sto_greedy(uav, uav_times, diff_times)
+
     # SEARCH POSITION WITH GREATER COST
     # pos_greater = search_greater_cost(initial_arrival_plan, uav_times)
     
@@ -60,7 +62,6 @@ def hcmm(uav, uav_times, diff_times):
     diff_sum = 1
         
     for iteration in range(iterations):
-        print(iteration)
         solution = True
         initial_arrival_plan = lower_result.copy()
         
@@ -94,6 +95,7 @@ def hcmm(uav, uav_times, diff_times):
 def hcam(uav, uav_times, diff_times):
     # GET SOLUTION WITH GREEDY
     initial_arrival_plan, initial_cost = det_greedy(uav, uav_times, diff_times)
+    initial_arrival_plan, initial_cost = sto_greedy(uav, uav_times, diff_times)
     # SEARCH POSITION WITH GREATER COST
     # pos_greater = search_greater_cost(initial_arrival_plan, uav_times)
     
@@ -105,7 +107,6 @@ def hcam(uav, uav_times, diff_times):
     diff_sum = 1
         
     for iteration in range(iterations):
-        print(iteration)
         solution = False
         initial_arrival_plan = lower_result.copy()
         
@@ -142,6 +143,7 @@ def hcam(uav, uav_times, diff_times):
 def tabu_search(uav, uav_times, diff_times):
     # GET SOLUTION WITH GREEDY
     initial_arrival_plan, initial_cost = det_greedy(uav, uav_times, diff_times)
+    initial_arrival_plan, initial_cost = sto_greedy(uav, uav_times, diff_times)
     # SEARCH POSITION WITH GREATER COST
     # pos_greater = search_greater_cost(initial_arrival_plan, uav_times)
     
@@ -157,7 +159,6 @@ def tabu_search(uav, uav_times, diff_times):
     diff_sum = 1
         
     for iteration in range(iterations):
-        print(iteration)
         solution = True
         initial_arrival_plan = tabu_solution.copy()
         
